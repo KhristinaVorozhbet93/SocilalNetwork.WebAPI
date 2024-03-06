@@ -1,0 +1,6 @@
+@SocilalNetwork.WebAPI_HostAddress = http://localhost:5018
+
+GET {{SocilalNetwork.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
