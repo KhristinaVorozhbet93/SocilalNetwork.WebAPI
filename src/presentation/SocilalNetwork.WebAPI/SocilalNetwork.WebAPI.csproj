@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>fd7ece19-c227-440f-a7aa-414eef30ebdb</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,10 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\infrastructure\SocialNetwork.DataEntityFramework\SocialNetwork.DataEntityFramework.csproj" />
   </ItemGroup>
 
 </Project>
