@@ -1,6 +1,8 @@
-﻿namespace SocialNetwork.Domain.Entities
+﻿using SocialNetwork.Domain.Interfaces;
+
+namespace SocialNetwork.Domain.Entities
 {
-    public class Account 
+    public class Account : IEntity
     {
         private Guid _id;
         private string _email;
