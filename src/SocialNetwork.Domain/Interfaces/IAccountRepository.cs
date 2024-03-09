@@ -2,7 +2,7 @@
 
 namespace SocialNetwork.Domain.Interfaces
 {
-    public interface IAccountRepository
+    public interface IAccountRepository : IRepositoryEF<Account>
     {
         Task<Account?> FindAccountByEmail(string email, CancellationToken cancellationToken);
     }
