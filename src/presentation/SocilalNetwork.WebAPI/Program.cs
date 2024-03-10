@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SocialNetwork.DataEntityFramework;
 using SocialNetwork.DataEntityFramework.Repositories;
 using SocialNetwork.Domain.Interfaces;
+using SocialNetwork.Domain.Services;
 using SocilalNetwork.WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,8 +21,9 @@ options.UseSqlServer
 ($"Server = {msSqlConfig.ServerName}; Database = SocialNetwork; " +
 $"User Id = {msSqlConfig.UserName}; Password = {msSqlConfig.Password}; TrustServerCertificate=True"));
 
-builder.Services.AddScoped(typeof(IRepositoryEF<>), typeof(IRepositoryEF<>));
-builder.Services.AddScoped<IAccountRepository, AccountRepository>(); 
+builder.Services.AddScoped(typeof(IRepositoryEF<>), typeof(EFRepository<>));
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<AccountService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

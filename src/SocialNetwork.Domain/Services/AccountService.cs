@@ -13,7 +13,7 @@ namespace SocialNetwork.Domain.Services
                 ?? throw new ArgumentNullException(nameof(accountRepository));
         }
 
-        public async Task Register
+        public async Task<Account> Register
             (string email, string password, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(email))
@@ -33,6 +33,7 @@ namespace SocialNetwork.Domain.Services
             }
             var account = new Account(Guid.NewGuid(),email, password);
             await _accountRepository.Add(account, cancellationToken);
+            return account; 
         }
     }
 }
