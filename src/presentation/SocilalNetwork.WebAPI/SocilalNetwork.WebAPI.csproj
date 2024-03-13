@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\infrastructure\SocialNetwork.DataEntityFramework\SocialNetwork.DataEntityFramework.csproj" />
+    <ProjectReference Include="..\..\infrastructure\SocialNetwork.IdentityPasswordHasherLib\SocialNetwork.IdentityPasswordHasherLib.csproj" />
   </ItemGroup>
 
 </Project>

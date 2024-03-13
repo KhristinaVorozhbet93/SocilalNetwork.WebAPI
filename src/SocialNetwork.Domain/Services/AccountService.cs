@@ -6,11 +6,16 @@ namespace SocialNetwork.Domain.Services
     public class AccountService
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly IApplicationPasswordHasher _passwordHasher;
 
-        public AccountService(IAccountRepository accountRepository)
+        public AccountService
+            (IAccountRepository accountRepository,
+            IApplicationPasswordHasher passwordHasher)
         {
-            _accountRepository = accountRepository 
+            _accountRepository = accountRepository
                 ?? throw new ArgumentNullException(nameof(accountRepository));
+            _passwordHasher = passwordHasher
+                 ?? throw new ArgumentNullException(nameof(passwordHasher));
         }
 
         public async Task<Account> Register
@@ -29,11 +34,17 @@ namespace SocialNetwork.Domain.Services
             var existedAccount = await _accountRepository.FindAccountByEmail(email, cancellationToken);
             if (existedAccount is not null)
             {
-                throw new InvalidOperationException($"Aккаунт с таким email уже существует."); 
+                throw new InvalidOperationException($"Aккаунт с таким email уже существует.");
             }
-            var account = new Account(Guid.NewGuid(),email, password);
+            var account = new Account(Guid.NewGuid(), email, EncryptPassword(password));
             await _accountRepository.Add(account, cancellationToken);
-            return account; 
+            return account;
+        }
+
+        private string EncryptPassword(string password)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(nameof(password));
+            return _passwordHasher.HashPassword(password);
         }
     }
 }

@@ -13,7 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Domain", "src\SocialNetwork.Domain\SocialNetwork.Domain.csproj", "{24C0E592-6C80-472B-8E8E-607CF2204FEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.DataEntityFramework", "src\infrastructure\SocialNetwork.DataEntityFramework\SocialNetwork.DataEntityFramework.csproj", "{3C2054C2-35AB-4B94-B54E-E6D202CC5C14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.DataEntityFramework", "src\infrastructure\SocialNetwork.DataEntityFramework\SocialNetwork.DataEntityFramework.csproj", "{3C2054C2-35AB-4B94-B54E-E6D202CC5C14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.IdentityPasswordHasherLib", "src\infrastructure\SocialNetwork.IdentityPasswordHasherLib\SocialNetwork.IdentityPasswordHasherLib.csproj", "{4020EC09-F4C6-486B-B0FE-B2F27801AA73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{3C2054C2-35AB-4B94-B54E-E6D202CC5C14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C2054C2-35AB-4B94-B54E-E6D202CC5C14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C2054C2-35AB-4B94-B54E-E6D202CC5C14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4020EC09-F4C6-486B-B0FE-B2F27801AA73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4020EC09-F4C6-486B-B0FE-B2F27801AA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4020EC09-F4C6-486B-B0FE-B2F27801AA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4020EC09-F4C6-486B-B0FE-B2F27801AA73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{1C1D9D00-89D9-426C-BB71-7C707F9BA177} = {47949C41-76D7-412F-B37D-42DEA5111533}
 		{24C0E592-6C80-472B-8E8E-607CF2204FEE} = {47949C41-76D7-412F-B37D-42DEA5111533}
 		{3C2054C2-35AB-4B94-B54E-E6D202CC5C14} = {1C1D9D00-89D9-426C-BB71-7C707F9BA177}
+		{4020EC09-F4C6-486B-B0FE-B2F27801AA73} = {1C1D9D00-89D9-426C-BB71-7C707F9BA177}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {51F22F06-A27B-4271-A87F-C359C030CC1C}

@@ -3,6 +3,7 @@ using SocialNetwork.DataEntityFramework;
 using SocialNetwork.DataEntityFramework.Repositories;
 using SocialNetwork.Domain.Interfaces;
 using SocialNetwork.Domain.Services;
+using SocialNetwork.IdentityPasswordHasherLib;
 using SocilalNetwork.WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,7 @@ $"User Id = {msSqlConfig.UserName}; Password = {msSqlConfig.Password}; TrustServ
 builder.Services.AddScoped(typeof(IRepositoryEF<>), typeof(EFRepository<>));
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<IApplicationPasswordHasher, IdentityPasswordHasher>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
