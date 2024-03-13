@@ -5,8 +5,8 @@ using SocilalNetwork.WebAPI.HttpModels.Responses;
 
 namespace SocilalNetwork.WebAPI.Controllers
 {
-    [ApiController]
     [Route ("account")]
+    [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
@@ -17,7 +17,7 @@ namespace SocilalNetwork.WebAPI.Controllers
                 ?? throw new ArgumentNullException(nameof(accountService));
         }
 
-        [HttpPost("/register")]
+        [HttpPost("register")]
         public async Task<ActionResult<RegisterResponse>> Register
             (RegisterRequest request, CancellationToken cancellationToken)
         {
