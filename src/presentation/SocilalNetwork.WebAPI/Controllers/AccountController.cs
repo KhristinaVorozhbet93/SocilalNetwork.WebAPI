@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SocialNetwork.Domain.Exceptions;
 using SocialNetwork.Domain.Services;
+using SocilalNetwork.WebAPI.HttpModels.Requests;
 using SocilalNetwork.WebAPI.HttpModels.Responses;
 
 namespace SocilalNetwork.WebAPI.Controllers
 {
-    [Route ("account")]
+    [Route("account")]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -13,7 +14,7 @@ namespace SocilalNetwork.WebAPI.Controllers
 
         public AccountController(AccountService accountService)
         {
-            _accountService = accountService 
+            _accountService = accountService
                 ?? throw new ArgumentNullException(nameof(accountService));
         }
 
@@ -27,13 +28,27 @@ namespace SocilalNetwork.WebAPI.Controllers
                     await _accountService.Register(request.Email, request.Password, cancellationToken);
                 return Ok(new RegisterResponse(response.Id, response.Email));
             }
-            catch (InvalidOperationException)
+            catch (EmailAlreadyExistsException)
             {
-                return Conflict("Аккаунт с таким email уже существует!");
+                return BadRequest(new ErrorResponse("Аккаунт с таким email уже зарегистрирован!"));
             }
-            catch (ArgumentException)
+        }
+
+        [HttpPost("login_by_password")]
+        public async Task<ActionResult<LoginResponse>> LoginByPassword(LoginRequest request, CancellationToken cancellationToken)
+        {
+            try
             {
-                return BadRequest("Поле не может быть неопределенным или пустым");
+                await _accountService.LoginByPassword(request.Email, request.Password, cancellationToken);
+                return Ok(new LoginResponse(request.Email));
+            }
+            catch (AccountNotFoundException)
+            {
+                return BadRequest(new ErrorResponse("Аккаунт с таким e-mail не найден!"));
+            }
+            catch (InvalidPasswordException)
+            {
+                return BadRequest(new ErrorResponse("Пароли не совпадают"));
             }
         }
     }

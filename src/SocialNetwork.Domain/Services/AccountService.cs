@@ -1,4 +1,5 @@
 ﻿using SocialNetwork.Domain.Entities;
+using SocialNetwork.Domain.Exceptions;
 using SocialNetwork.Domain.Interfaces;
 
 namespace SocialNetwork.Domain.Services
@@ -21,24 +22,51 @@ namespace SocialNetwork.Domain.Services
         public async Task<Account> Register
             (string email, string password, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(email))
-            {
-                throw new ArgumentException($"\"{nameof(email)}\" не может быть неопределенным или пустым.", nameof(email));
-            }
-
-            if (string.IsNullOrEmpty(password))
-            {
-                throw new ArgumentException($"\"{nameof(password)}\" не может быть неопределенным или пустым.", nameof(password));
-            }
+            ArgumentException.ThrowIfNullOrEmpty(nameof(email));
+            ArgumentException.ThrowIfNullOrEmpty(nameof(password));
 
             var existedAccount = await _accountRepository.FindAccountByEmail(email, cancellationToken);
             if (existedAccount is not null)
             {
-                throw new InvalidOperationException($"Aккаунт с таким email уже существует.");
+                throw new EmailAlreadyExistsException("Aккаунт с таким email уже существует.");
             }
             var account = new Account(Guid.NewGuid(), email, EncryptPassword(password));
             await _accountRepository.Add(account, cancellationToken);
             return account;
+        }
+
+        public async Task LoginByPassword(string email, string password, CancellationToken cancellationToken) 
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(nameof(email));
+            ArgumentException.ThrowIfNullOrWhiteSpace(nameof(password));
+
+            var account = await _accountRepository.FindAccountByEmail(email, cancellationToken);
+            if (account is null)
+            {
+                throw new AccountNotFoundException("Аккаунт с таким e-mail не найден!");
+            }
+
+            var isPasswordValid = 
+                _passwordHasher.VerifyHashedPassword
+                (EncryptPassword(password), account.HashedPassword, out bool rehash);
+
+            if (!isPasswordValid)
+            {
+                throw new InvalidPasswordException("Пароли не совпадают");
+            }
+
+            if (rehash)
+            {
+                await RehashPassword(password, account, cancellationToken);
+            }
+        }
+
+        private async Task RehashPassword(string password, Account account, CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(nameof(account));
+            ArgumentException.ThrowIfNullOrEmpty(nameof(password));
+            account.HashedPassword = EncryptPassword(password);
+            await _accountRepository.Update(account, cancellationToken);
         }
 
         private string EncryptPassword(string password)
