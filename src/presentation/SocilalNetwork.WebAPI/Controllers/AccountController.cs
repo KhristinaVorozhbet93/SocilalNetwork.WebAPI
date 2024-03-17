@@ -30,7 +30,7 @@ namespace SocilalNetwork.WebAPI.Controllers
             }
             catch (EmailAlreadyExistsException)
             {
-                return BadRequest(new ErrorResponse("Аккаунт с таким email уже зарегистрирован!"));
+                return BadRequest(new ErrorResponse("Аккаунт с таким email уже зарегистрирован"));
             }
         }
 
@@ -44,11 +44,11 @@ namespace SocilalNetwork.WebAPI.Controllers
             }
             catch (AccountNotFoundException)
             {
-                return BadRequest(new ErrorResponse("Аккаунт с таким e-mail не найден!"));
+                return BadRequest(new ErrorResponse("Аккаунт с таким e-mail не найден"));
             }
             catch (InvalidPasswordException)
             {
-                return BadRequest(new ErrorResponse("Пароли не совпадают"));
+                return BadRequest(new ErrorResponse("Неверный пароль"));
             }
         }
     }

@@ -28,7 +28,7 @@ namespace SocialNetwork.Domain.Services
             var existedAccount = await _accountRepository.FindAccountByEmail(email, cancellationToken);
             if (existedAccount is not null)
             {
-                throw new EmailAlreadyExistsException("Aккаунт с таким email уже существует.");
+                throw new EmailAlreadyExistsException("Aккаунт с таким email уже существует");
             }
             var account = new Account(Guid.NewGuid(), email, EncryptPassword(password));
             await _accountRepository.Add(account, cancellationToken);
@@ -43,16 +43,16 @@ namespace SocialNetwork.Domain.Services
             var account = await _accountRepository.FindAccountByEmail(email, cancellationToken);
             if (account is null)
             {
-                throw new AccountNotFoundException("Аккаунт с таким e-mail не найден!");
+                throw new AccountNotFoundException("Аккаунт с таким e-mail не найден");
             }
 
             var isPasswordValid = 
                 _passwordHasher.VerifyHashedPassword
-                (EncryptPassword(password), account.HashedPassword, out bool rehash);
+                (account.HashedPassword, password, out bool rehash);
 
             if (!isPasswordValid)
             {
-                throw new InvalidPasswordException("Пароли не совпадают");
+                throw new InvalidPasswordException("Неверный пароль");
             }
 
             if (rehash)
