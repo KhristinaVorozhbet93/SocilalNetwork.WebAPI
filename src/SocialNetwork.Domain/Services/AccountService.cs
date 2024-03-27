@@ -74,5 +74,16 @@ namespace SocialNetwork.Domain.Services
             ArgumentException.ThrowIfNullOrWhiteSpace(nameof(password));
             return _passwordHasher.HashPassword(password);
         }
+
+        public async Task DeleteAccount(Guid id, CancellationToken cancellationToken)
+        {
+            var account = await _accountRepository.FindAccountById(id, cancellationToken);
+            if (account is null)
+            {
+                throw new AccountNotFoundException("Аккаунт с таким id не найден");
+            }
+
+            await _accountRepository.Delete(account, cancellationToken);
+        }
     }
 }

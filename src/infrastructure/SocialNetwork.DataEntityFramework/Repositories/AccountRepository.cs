@@ -16,5 +16,10 @@ namespace SocialNetwork.DataEntityFramework.Repositories
 
             return await Entities.SingleOrDefaultAsync(it => it.Email == email, cancellationToken);
         }
+
+        public async Task<Account?> FindAccountById(Guid id, CancellationToken cancellationToken)
+        {
+            return await Entities.SingleOrDefaultAsync(it => it.Id == id, cancellationToken);
+        }
     }
 }

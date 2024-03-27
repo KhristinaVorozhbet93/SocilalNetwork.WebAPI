@@ -51,5 +51,18 @@ namespace SocilalNetwork.WebAPI.Controllers
                 return BadRequest(new ErrorResponse("Неверный пароль"));
             }
         }
+
+        [HttpPost("delete_account")]
+        public async Task<ActionResult> DeleteAccount(DeleteAccountRequest request, CancellationToken cancellationToken)
+        {
+            try {
+                await _accountService.DeleteAccount(request.Id, cancellationToken);
+                return Ok();
+            }
+            catch (AccountNotFoundException)
+            {
+                return BadRequest(new ErrorResponse("Аккаунт с таким e-mail не найден"));
+            }
+        }
     }
 }
