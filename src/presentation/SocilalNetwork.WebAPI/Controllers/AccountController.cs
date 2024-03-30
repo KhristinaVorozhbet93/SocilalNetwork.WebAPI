@@ -26,11 +26,15 @@ namespace SocilalNetwork.WebAPI.Controllers
             {
                 var response =
                     await _accountService.Register(request.Email, request.Password, cancellationToken);
-                return Ok(new RegisterResponse(response.Id, response.Email));
+                return Ok(new RegisterResponse(response.Id, response.Email.ToString()));
             }
             catch (EmailAlreadyExistsException)
             {
                 return BadRequest(new ErrorResponse("Аккаунт с таким email уже зарегистрирован"));
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest(new ErrorResponse("Некорректный адрес e-mail адреса"));
             }
         }
 
@@ -61,7 +65,7 @@ namespace SocilalNetwork.WebAPI.Controllers
             }
             catch (AccountNotFoundException)
             {
-                return BadRequest(new ErrorResponse("Аккаунт с таким e-mail не найден"));
+                return BadRequest(new ErrorResponse("Аккаунт с таким id не найден"));
             }
         }
     }

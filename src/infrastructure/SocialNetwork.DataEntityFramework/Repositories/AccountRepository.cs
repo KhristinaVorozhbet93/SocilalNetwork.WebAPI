@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Domain.Entities;
+using SocialNetwork.Domain.Entities.Value_Objects;
 using SocialNetwork.Domain.Interfaces;
 
 namespace SocialNetwork.DataEntityFramework.Repositories
@@ -9,12 +10,9 @@ namespace SocialNetwork.DataEntityFramework.Repositories
         public AccountRepository(AppDbContext appDbContext) : base (appDbContext) {}
         public async Task<Account?> FindAccountByEmail(string email, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(email))
-            {
-                throw new ArgumentNullException(nameof(email));
-            }
+            ArgumentNullException.ThrowIfNull(email);
 
-            return await Entities.SingleOrDefaultAsync(it => it.Email == email, cancellationToken);
+            return await Entities.SingleOrDefaultAsync(it => it.Email.Value == email, cancellationToken);
         }
 
         public async Task<Account?> FindAccountById(Guid id, CancellationToken cancellationToken)

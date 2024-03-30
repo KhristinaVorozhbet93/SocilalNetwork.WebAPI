@@ -1,19 +1,18 @@
-﻿using SocialNetwork.Domain.Interfaces;
+﻿using SocialNetwork.Domain.Entities.Value_Objects;
+using SocialNetwork.Domain.Interfaces;
 
 namespace SocialNetwork.Domain.Entities
 {
     public class Account : IEntity
     {
         private Guid _id;
-        private string _email;
+        private Email _email;
         private string _hashedPassword;
 
-        public Account(Guid id, string email, string hashedPassword)
+        protected Account() { }
+        public Account(Guid id, Email email, string hashedPassword)
         {
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                throw new ArgumentNullException(nameof(email));
-            }
+            ArgumentNullException.ThrowIfNull(email);
             if (string.IsNullOrWhiteSpace(hashedPassword))
             {
                 throw new ArgumentNullException(nameof(hashedPassword));
@@ -35,7 +34,7 @@ namespace SocialNetwork.Domain.Entities
             }
         }
 
-        public string Email
+        public Email Email
         {
             get
             {
@@ -43,10 +42,7 @@ namespace SocialNetwork.Domain.Entities
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
+                ArgumentNullException.ThrowIfNull(value);
                 _email = value;
             }
         }

@@ -1,4 +1,5 @@
 ﻿using SocialNetwork.Domain.Entities;
+using SocialNetwork.Domain.Entities.Value_Objects;
 using SocialNetwork.Domain.Exceptions;
 using SocialNetwork.Domain.Interfaces;
 
@@ -24,18 +25,18 @@ namespace SocialNetwork.Domain.Services
         {
             ArgumentException.ThrowIfNullOrEmpty(nameof(email));
             ArgumentException.ThrowIfNullOrEmpty(nameof(password));
-
+     
             var existedAccount = await _accountRepository.FindAccountByEmail(email, cancellationToken);
             if (existedAccount is not null)
             {
                 throw new EmailAlreadyExistsException("Aккаунт с таким email уже существует");
             }
-            var account = new Account(Guid.NewGuid(), email, EncryptPassword(password));
+            var account = new Account(Guid.NewGuid(), new Email(email), EncryptPassword(password));
             await _accountRepository.Add(account, cancellationToken);
             return account;
         }
 
-        public async Task LoginByPassword(string email, string password, CancellationToken cancellationToken) 
+        public async Task LoginByPassword(string email, string password, CancellationToken cancellationToken)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(nameof(email));
             ArgumentException.ThrowIfNullOrWhiteSpace(nameof(password));
@@ -46,7 +47,7 @@ namespace SocialNetwork.Domain.Services
                 throw new AccountNotFoundException("Аккаунт с таким e-mail не найден");
             }
 
-            var isPasswordValid = 
+            var isPasswordValid =
                 _passwordHasher.VerifyHashedPassword
                 (account.HashedPassword, password, out bool rehash);
 

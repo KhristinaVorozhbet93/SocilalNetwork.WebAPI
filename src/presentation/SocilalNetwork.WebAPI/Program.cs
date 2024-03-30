@@ -23,7 +23,7 @@ options.UseSqlServer
 $"User Id = {msSqlConfig.UserName}; Password = {msSqlConfig.Password}; TrustServerCertificate=True"));
 
 builder.Services.AddScoped(typeof(IRepositoryEF<>), typeof(EFRepository<>));
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddTransient<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<IApplicationPasswordHasher, IdentityPasswordHasher>();
 builder.Services.AddControllers();

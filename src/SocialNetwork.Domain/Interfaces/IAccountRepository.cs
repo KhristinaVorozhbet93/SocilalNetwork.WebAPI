@@ -1,4 +1,5 @@
 ﻿using SocialNetwork.Domain.Entities;
+using SocialNetwork.Domain.Entities.Value_Objects;
 
 namespace SocialNetwork.Domain.Interfaces
 {

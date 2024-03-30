@@ -28,10 +28,6 @@ namespace SocialNetwork.DataEntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("HashedPassword")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -39,6 +35,29 @@ namespace SocialNetwork.DataEntityFramework.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Domain.Entities.Account", b =>
+                {
+                    b.OwnsOne("SocialNetwork.Domain.Entities.Value_Objects.Email", "Email", b1 =>
+                        {
+                            b1.Property<Guid>("AccountId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("AccountId");
+
+                            b1.ToTable("Accounts");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AccountId");
+                        });
+
+                    b.Navigation("Email")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

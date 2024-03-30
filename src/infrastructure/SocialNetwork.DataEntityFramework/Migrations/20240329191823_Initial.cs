@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SocialNetwork.DataEntityFramework.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,7 @@ namespace SocialNetwork.DataEntityFramework.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email_Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HashedPassword = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
