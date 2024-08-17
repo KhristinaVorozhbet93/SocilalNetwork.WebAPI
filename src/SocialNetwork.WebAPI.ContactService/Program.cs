@@ -1,4 +1,6 @@
 
+using Microsoft.EntityFrameworkCore;
+
 namespace SocialNetwork.WebAPI.ContactService
 {
     public class Program
