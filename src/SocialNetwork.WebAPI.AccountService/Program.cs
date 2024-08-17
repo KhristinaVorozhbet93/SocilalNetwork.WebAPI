@@ -10,22 +10,12 @@ namespace SocialNetwork.WebAPI.AccountService
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            var msSqlConfig = builder.Configuration
-            .GetRequiredSection("MsSqlConfig")
-            .Get<MsSqlConfig>();
-            if (msSqlConfig is null)
-            {
-                throw new InvalidOperationException("MsSqlConfig is not configured");
-            }
-
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<AccountDbContext>(options =>
-            options.UseNpgsql
-            ($"Server = {msSqlConfig.ServerName}; Database = SocialNetwork; " +
-            $"User Id = {msSqlConfig.UserName}; Password = {msSqlConfig.Password}; TrustServerCertificate=True"));
+               options.UseNpgsql(builder.Configuration.GetConnectionString("Default"))); 
 
             builder.Services.AddScoped(typeof(IRepositoryEF<>), typeof(EFRepository<>));
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
