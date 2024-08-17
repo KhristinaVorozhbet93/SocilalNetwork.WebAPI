@@ -47,7 +47,7 @@ namespace SocialNetwork.WebAPI.AccountService.Controllers
             }
             catch (AccountNotFoundException)
             {
-                return BadRequest(new ErrorResponse("Аккаунт с таким e-mail не найден"));
+                return NotFound(new ErrorResponse("Аккаунт с таким e-mail не найден"));
             }
             catch (InvalidPasswordException)
             {
@@ -65,7 +65,7 @@ namespace SocialNetwork.WebAPI.AccountService.Controllers
             }
             catch (AccountNotFoundException)
             {
-                return BadRequest(new ErrorResponse("Аккаунт с таким id не найден"));
+                return NotFound(new ErrorResponse("Аккаунт с таким id не найден"));
             }
         }
     }
