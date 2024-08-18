@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.WebAPI.Contac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Shared", "src\SocialNetwork.Shared\SocialNetwork.Shared.csproj", "{5A9438DF-88BA-4A4F-BB37-9040BC6FAA86}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.RabbitMQ", "src\SocialNetwork.RabbitMQ\SocialNetwork.RabbitMQ.csproj", "{87588B00-F37C-4450-9278-B300FB286426}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{5A9438DF-88BA-4A4F-BB37-9040BC6FAA86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A9438DF-88BA-4A4F-BB37-9040BC6FAA86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A9438DF-88BA-4A4F-BB37-9040BC6FAA86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87588B00-F37C-4450-9278-B300FB286426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87588B00-F37C-4450-9278-B300FB286426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87588B00-F37C-4450-9278-B300FB286426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87588B00-F37C-4450-9278-B300FB286426}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +50,7 @@ Global
 		{3CE1F4F0-A6C8-4B11-927F-CA05FF447CC0} = {47949C41-76D7-412F-B37D-42DEA5111533}
 		{9C2E0AA8-BD1B-4865-8747-BCE70783D27F} = {47949C41-76D7-412F-B37D-42DEA5111533}
 		{5A9438DF-88BA-4A4F-BB37-9040BC6FAA86} = {47949C41-76D7-412F-B37D-42DEA5111533}
+		{87588B00-F37C-4450-9278-B300FB286426} = {47949C41-76D7-412F-B37D-42DEA5111533}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {51F22F06-A27B-4271-A87F-C359C030CC1C}
