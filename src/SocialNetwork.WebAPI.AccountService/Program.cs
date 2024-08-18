@@ -10,6 +10,7 @@ namespace SocialNetwork.WebAPI.AccountService
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -24,6 +25,13 @@ namespace SocialNetwork.WebAPI.AccountService
 
             var app = builder.Build();
 
+            app.UseCors(policy =>
+            {
+                policy
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowAnyOrigin();
+            });
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
