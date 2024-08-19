@@ -1,4 +1,4 @@
 ﻿namespace SocialNetwork.Core.Contracts.User
 {
-    public record LoginResponse(string Email);
+    public record LoginResponse(Guid Id, string Email);
 }

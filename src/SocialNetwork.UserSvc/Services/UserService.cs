@@ -11,11 +11,11 @@ namespace SocialNetwork.UserSvc.Services
         private readonly IApplicationPasswordHasher _passwordHasher;
 
         public UserService
-            (IUserRepository accountRepository,
+            (IUserRepository userRepository,
             IApplicationPasswordHasher passwordHasher)
         {
-            _userRepository = accountRepository
-                ?? throw new ArgumentNullException(nameof(accountRepository));
+            _userRepository = userRepository
+                ?? throw new ArgumentNullException(nameof(userRepository));
             _passwordHasher = passwordHasher
                  ?? throw new ArgumentNullException(nameof(passwordHasher));
         }
@@ -26,30 +26,30 @@ namespace SocialNetwork.UserSvc.Services
             ArgumentException.ThrowIfNullOrEmpty(nameof(email));
             ArgumentException.ThrowIfNullOrEmpty(nameof(password));
 
-            var existedAccount = await _userRepository.FindAccountByEmail(email, cancellationToken);
-            if (existedAccount is not null)
+            var existedUser = await _userRepository.FindUserByEmail(email, cancellationToken);
+            if (existedUser is not null)
             {
                 throw new EmailAlreadyExistsException("Aккаунт с таким email уже существует");
             }
-            var account = new User(Guid.NewGuid(), new Email(email), EncryptPassword(password));
-            await _userRepository.Add(account, cancellationToken);
-            return account;
+            var user = new User(Guid.NewGuid(), new Email(email), EncryptPassword(password));
+            await _userRepository.Add(user, cancellationToken);
+            return user;
         }
 
-        public async Task LoginByPassword(string email, string password, CancellationToken cancellationToken)
+        public async Task<User> LoginByPassword(string email, string password, CancellationToken cancellationToken)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(nameof(email));
             ArgumentException.ThrowIfNullOrWhiteSpace(nameof(password));
 
-            var account = await _userRepository.FindAccountByEmail(email, cancellationToken);
-            if (account is null)
+            var user = await _userRepository.FindUserByEmail(email, cancellationToken);
+            if (user is null)
             {
                 throw new UserNotFoundException("Аккаунт с таким e-mail не найден");
             }
 
             var isPasswordValid =
                 _passwordHasher.VerifyHashedPassword
-                (account.HashedPassword, password, out bool rehash);
+                (user.HashedPassword, password, out bool rehash);
 
             if (!isPasswordValid)
             {
@@ -58,8 +58,9 @@ namespace SocialNetwork.UserSvc.Services
 
             if (rehash)
             {
-                await RehashPassword(password, account, cancellationToken);
+                await RehashPassword(password, user, cancellationToken);
             }
+            return user;
         }
 
         private async Task RehashPassword(string password, User account, CancellationToken cancellationToken)
@@ -78,13 +79,13 @@ namespace SocialNetwork.UserSvc.Services
 
         public async Task DeleteAccount(Guid id, CancellationToken cancellationToken)
         {
-            var account = await _userRepository.FindAccountById(id, cancellationToken);
-            if (account is null)
+            var user = await _userRepository.FindUserById(id, cancellationToken);
+            if (user is null)
             {
                 throw new UserNotFoundException("Аккаунт с таким id не найден");
             }
 
-            await _userRepository.Delete(account, cancellationToken);
+            await _userRepository.Delete(user, cancellationToken);
         }
     }
 }

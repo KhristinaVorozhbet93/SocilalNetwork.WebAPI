@@ -28,8 +28,8 @@ namespace SocialNetwork.UserSvc.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<LoginResponse>> LoginByPassword(LoginRequest request, CancellationToken cancellationToken)
         {
-            await _userService.LoginByPassword(request.Email, request.Password, cancellationToken);
-            return Ok(new LoginResponse(request.Email));
+            var response = await _userService.LoginByPassword(request.Email, request.Password, cancellationToken);
+            return Ok(new LoginResponse(response.Id, response.Email.ToString()));
         }
     }
 }
