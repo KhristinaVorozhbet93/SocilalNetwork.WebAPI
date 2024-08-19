@@ -2,34 +2,34 @@
 
 namespace SocialNetwork.WebAPI.AccountService
 {
-    public class AccountService
+    public class UserService
     {
-        private readonly IAccountRepository _accountRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IApplicationPasswordHasher _passwordHasher;
 
-        public AccountService
-            (IAccountRepository accountRepository,
+        public UserService
+            (IUserRepository accountRepository,
             IApplicationPasswordHasher passwordHasher)
         {
-            _accountRepository = accountRepository
+            _userRepository = accountRepository
                 ?? throw new ArgumentNullException(nameof(accountRepository));
             _passwordHasher = passwordHasher
                  ?? throw new ArgumentNullException(nameof(passwordHasher));
         }
 
-        public async Task<Account> Register
+        public async Task<User> Register
             (string email, string password, CancellationToken cancellationToken)
         {
             ArgumentException.ThrowIfNullOrEmpty(nameof(email));
             ArgumentException.ThrowIfNullOrEmpty(nameof(password));
 
-            var existedAccount = await _accountRepository.FindAccountByEmail(email, cancellationToken);
+            var existedAccount = await _userRepository.FindAccountByEmail(email, cancellationToken);
             if (existedAccount is not null)
             {
                 throw new EmailAlreadyExistsException("Aккаунт с таким email уже существует");
             }
-            var account = new Account(Guid.NewGuid(), new Email(email), EncryptPassword(password));
-            await _accountRepository.Add(account, cancellationToken);
+            var account = new User(Guid.NewGuid(), new Email(email), EncryptPassword(password));
+            await _userRepository.Add(account, cancellationToken);
             return account;
         }
 
@@ -38,10 +38,10 @@ namespace SocialNetwork.WebAPI.AccountService
             ArgumentException.ThrowIfNullOrWhiteSpace(nameof(email));
             ArgumentException.ThrowIfNullOrWhiteSpace(nameof(password));
 
-            var account = await _accountRepository.FindAccountByEmail(email, cancellationToken);
+            var account = await _userRepository.FindAccountByEmail(email, cancellationToken);
             if (account is null)
             {
-                throw new AccountNotFoundException("Аккаунт с таким e-mail не найден");
+                throw new UserNotFoundException("Аккаунт с таким e-mail не найден");
             }
 
             var isPasswordValid =
@@ -59,12 +59,12 @@ namespace SocialNetwork.WebAPI.AccountService
             }
         }
 
-        private async Task RehashPassword(string password, Account account, CancellationToken cancellationToken)
+        private async Task RehashPassword(string password, User account, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(nameof(account));
             ArgumentException.ThrowIfNullOrEmpty(nameof(password));
             account.HashedPassword = EncryptPassword(password);
-            await _accountRepository.Update(account, cancellationToken);
+            await _userRepository.Update(account, cancellationToken);
         }
 
         private string EncryptPassword(string password)
@@ -75,13 +75,13 @@ namespace SocialNetwork.WebAPI.AccountService
 
         public async Task DeleteAccount(Guid id, CancellationToken cancellationToken)
         {
-            var account = await _accountRepository.FindAccountById(id, cancellationToken);
+            var account = await _userRepository.FindAccountById(id, cancellationToken);
             if (account is null)
             {
-                throw new AccountNotFoundException("Аккаунт с таким id не найден");
+                throw new UserNotFoundException("Аккаунт с таким id не найден");
             }
 
-            await _accountRepository.Delete(account, cancellationToken);
+            await _userRepository.Delete(account, cancellationToken);
         }
     }
 }

@@ -10,7 +10,7 @@ using SocialNetwork.WebAPI.AccountService;
 
 namespace SocialNetwork.WebAPI.AccountService.Migrations
 {
-    [DbContext(typeof(AccountDbContext))]
+    [DbContext(typeof(UserDbContext))]
     partial class AccountDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

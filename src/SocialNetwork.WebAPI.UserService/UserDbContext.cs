@@ -2,15 +2,15 @@
 
 namespace SocialNetwork.WebAPI.AccountService
 {
-    public class AccountDbContext : DbContext
+    public class UserDbContext : DbContext
     {
-        DbSet<Account> Accounts => Set<Account>();
-        public AccountDbContext(DbContextOptions<AccountDbContext> options)
+        DbSet<User> Users => Set<User>();
+        public UserDbContext(DbContextOptions<UserDbContext> options)
             : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>()
+            modelBuilder.Entity<User>()
                 .OwnsOne(a => a.Email);
         }
     }

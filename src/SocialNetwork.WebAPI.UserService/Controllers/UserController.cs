@@ -5,15 +5,15 @@ using SocialNetwork.WebAPI.AccountService.Exceptions;
 
 namespace SocialNetwork.WebAPI.AccountService.Controllers
 {
-    [Route("account")]
+    [Route("user")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly AccountService _accountService;
+        private readonly UserService _userService;
 
-        public AccountController(AccountService accountService)
+        public UserController(UserService accountService)
         {
-            _accountService = accountService
+            _userService = accountService
                 ?? throw new ArgumentNullException(nameof(accountService));
         }
 
@@ -24,7 +24,7 @@ namespace SocialNetwork.WebAPI.AccountService.Controllers
             try
             {
                 var response =
-                    await _accountService.Register(request.Email, request.Password, cancellationToken);
+                    await _userService.Register(request.Email, request.Password, cancellationToken);
                 return Ok(new RegisterResponse(response.Id, response.Email.ToString()));
             }
             catch (EmailAlreadyExistsException)
@@ -42,30 +42,16 @@ namespace SocialNetwork.WebAPI.AccountService.Controllers
         {
             try
             {
-                await _accountService.LoginByPassword(request.Email, request.Password, cancellationToken);
+                await _userService.LoginByPassword(request.Email, request.Password, cancellationToken);
                 return Ok(new LoginResponse(request.Email));
             }
-            catch (AccountNotFoundException)
+            catch (UserNotFoundException)
             {
                 return NotFound(new ErrorResponse("Аккаунт с таким e-mail не найден"));
             }
             catch (InvalidPasswordException)
             {
                 return BadRequest(new ErrorResponse("Неверный пароль"));
-            }
-        }
-
-        [HttpPost("delete_account")]
-        public async Task<ActionResult> DeleteAccount(DeleteAccountRequest request, CancellationToken cancellationToken)
-        {
-            try
-            {
-                await _accountService.DeleteAccount(request.Id, cancellationToken);
-                return Ok();
-            }
-            catch (AccountNotFoundException)
-            {
-                return NotFound(new ErrorResponse("Аккаунт с таким id не найден"));
             }
         }
     }

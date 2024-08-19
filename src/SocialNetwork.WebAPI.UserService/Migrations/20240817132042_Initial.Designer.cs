@@ -11,7 +11,7 @@ using SocialNetwork.WebAPI.AccountService;
 
 namespace SocialNetwork.WebAPI.AccountService.Migrations
 {
-    [DbContext(typeof(AccountDbContext))]
+    [DbContext(typeof(UserDbContext))]
     [Migration("20240817132042_Initial")]
     partial class Initial
     {

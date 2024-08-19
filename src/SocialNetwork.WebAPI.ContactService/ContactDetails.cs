@@ -1,4 +1,4 @@
-﻿using SocialNetwork.Shared.Interfaces;
+﻿using SocialNetwork.Shared.Contracts;
 
 namespace SocialNetwork.WebAPI.ContactService
 {

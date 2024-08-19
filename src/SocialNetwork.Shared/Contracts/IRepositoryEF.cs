@@ -1,4 +1,4 @@
-﻿namespace SocialNetwork.Shared.Interfaces
+﻿namespace SocialNetwork.Shared.Contracts
 {
     public interface IRepositoryEF<TEntity>
     {

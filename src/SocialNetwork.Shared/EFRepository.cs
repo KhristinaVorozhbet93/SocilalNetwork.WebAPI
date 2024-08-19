@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.Shared.Interfaces;
+using SocialNetwork.Shared.Contracts;
 
 namespace SocialNetwork.Shared
 {

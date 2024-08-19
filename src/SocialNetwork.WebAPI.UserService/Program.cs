@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Shared;
-using SocialNetwork.Shared.Interfaces;
+using SocialNetwork.Shared.Contracts;
 
 namespace SocialNetwork.WebAPI.AccountService
 {
@@ -15,12 +15,12 @@ namespace SocialNetwork.WebAPI.AccountService
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<AccountDbContext>(options =>
+            builder.Services.AddDbContext<UserDbContext>(options =>
                options.UseNpgsql(builder.Configuration.GetConnectionString("Default"))); 
 
             builder.Services.AddScoped(typeof(IRepositoryEF<>), typeof(EFRepository<>));
-            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-            builder.Services.AddScoped<AccountService>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<IApplicationPasswordHasher, IdentityPasswordHasher>();
 
             var app = builder.Build();

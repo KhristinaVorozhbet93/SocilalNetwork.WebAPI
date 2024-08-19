@@ -1,15 +1,15 @@
-﻿using SocialNetwork.Shared.Interfaces;
+﻿using SocialNetwork.Shared.Contracts;
 
 namespace SocialNetwork.WebAPI.AccountService
 {
-    public class Account : IEntity
+    public class User : IEntity
     {
         private Guid _id;
         private Email _email;
         private string _hashedPassword;
 
-        protected Account() { }
-        public Account(Guid id, Email email, string hashedPassword)
+        protected User() { }
+        public User(Guid id, Email email, string hashedPassword)
         {
             ArgumentNullException.ThrowIfNull(email);
             if (string.IsNullOrWhiteSpace(hashedPassword))
