@@ -1,0 +1,6 @@
+@SocialNetwork.MailKitNotificationService_HostAddress = http://localhost:5078
+
+GET {{SocialNetwork.MailKitNotificationService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
