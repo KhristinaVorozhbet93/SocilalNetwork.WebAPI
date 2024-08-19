@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SocialNetwork.Core.Contracts.Base;
 using SocialNetwork.Core.Contracts.User;
-using SocialNetwork.UserSvc.Exceptions;
 using SocialNetwork.UserSvc.Services;
 
 namespace SocialNetwork.UserSvc.Controllers
@@ -12,48 +10,26 @@ namespace SocialNetwork.UserSvc.Controllers
     {
         private readonly UserService _userService;
 
-        public UserController(UserService accountService)
+        public UserController(UserService userService)
         {
-            _userService = accountService
-                ?? throw new ArgumentNullException(nameof(accountService));
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<RegisterResponse>> Register
             (RegisterRequest request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var response =
-                    await _userService.Register(request.Email, request.Password, cancellationToken);
-                return Ok(new RegisterResponse(response.Id, response.Email.ToString()));
-            }
-            catch (EmailAlreadyExistsException)
-            {
-                return BadRequest(new ErrorResponse("Аккаунт с таким email уже зарегистрирован"));
-            }
-            catch (InvalidOperationException)
-            {
-                return BadRequest(new ErrorResponse("Некорректный адрес e-mail адреса"));
-            }
+            var response =
+                await _userService.Register(request.Email, request.Password, cancellationToken);
+            return Ok(new RegisterResponse(response.Id, response.Email.ToString()));
         }
 
-        [HttpPost("login_by_password")]
+
+        [HttpPost("login")]
         public async Task<ActionResult<LoginResponse>> LoginByPassword(LoginRequest request, CancellationToken cancellationToken)
         {
-            try
-            {
-                await _userService.LoginByPassword(request.Email, request.Password, cancellationToken);
-                return Ok(new LoginResponse(request.Email));
-            }
-            catch (UserNotFoundException)
-            {
-                return NotFound(new ErrorResponse("Аккаунт с таким e-mail не найден"));
-            }
-            catch (InvalidPasswordException)
-            {
-                return BadRequest(new ErrorResponse("Неверный пароль"));
-            }
+            await _userService.LoginByPassword(request.Email, request.Password, cancellationToken);
+            return Ok(new LoginResponse(request.Email));
         }
     }
 }
