@@ -1,3 +1,4 @@
+using SocialNetwork.Core.Contracts.Infrastructure.Options;
 using SocialNetwork.Core.Contracts.MailkitNotification;
 using SocialNetwork.MailKitNotificationSvc.Services;
 

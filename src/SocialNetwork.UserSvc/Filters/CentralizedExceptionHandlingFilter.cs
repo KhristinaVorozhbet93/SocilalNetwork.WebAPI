@@ -27,7 +27,7 @@ namespace SocialNetwork.UserSvc.Filters
             {
                 EmailAlreadyExistsException => ("Аккаунт с таким email уже зарегистрирован", StatusCodes.Status409Conflict),
                 UserNotFoundException => ("Аккаунт с таким e-mail не найден", StatusCodes.Status404NotFound),
-                InvalidPasswordException => ("Неверный пароль", StatusCodes.Status401Unauthorized),
+                InvalidPasswordException => ("Неверный пароль", StatusCodes.Status404NotFound),
                 InvalidOperationException => ("Некорректный адрес e-mail адреса", StatusCodes.Status400BadRequest),
                 DomainException => ("Неизвестная ошибка!", StatusCodes.Status500InternalServerError),
                 _ => (null, 0)

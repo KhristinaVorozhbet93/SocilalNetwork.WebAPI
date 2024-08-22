@@ -2,7 +2,7 @@
 using MailKit.Net.Smtp;
 using System.Net;
 using SocialNetwork.Core.Contracts.MailkitNotification;
-using SocialNetwork.MailKitNotificationService;
+using SocialNetwork.Core.Contracts.Infrastructure.Options;
 
 namespace SocialNetwork.MailKitNotificationSvc.Services
 {

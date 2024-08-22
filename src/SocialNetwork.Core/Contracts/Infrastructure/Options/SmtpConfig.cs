@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SocialNetwork.MailKitNotificationService
+namespace SocialNetwork.Core.Contracts.Infrastructure.Options
 {
     public class SmtpConfig
     {
